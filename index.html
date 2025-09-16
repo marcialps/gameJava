@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Quest - Aprenda Java de Forma Divertida!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="logo">
+                <h1>☕ Java Quest</h1>
+                <p>Aventure-se no mundo da programação Java!</p>
+            </div>
+            <div class="player-stats">
+                <div class="stat">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">🏆</span>
+                    <span class="stat-value" id="level">1</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">💎</span>
+                    <span class="stat-value" id="streak">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">Exercício 1 de 10</span>
+        </div>
+
+        <!-- Main Game Area -->
+        <main class="game-main">
+            <!-- Welcome Screen -->
+            <div class="screen" id="welcomeScreen">
+                <div class="welcome-content">
+                    <h2>🎮 Bem-vindo ao Java Quest!</h2>
+                    <p>Prepare-se para uma aventura épica no mundo da programação Java!</p>
+                    <div class="welcome-features">
+                        <div class="feature">
+                            <span class="feature-icon">🎯</span>
+                            <span>Exercícios Práticos</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">💡</span>
+                            <span>Dicas Inteligentes</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🏅</span>
+                            <span>Sistema de Conquistas</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="startGame()">Começar Aventura!</button>
+                </div>
+            </div>
+
+            <!-- Exercise Screen -->
+            <div class="screen hidden" id="exerciseScreen">
+                <div class="exercise-container">
+                    <div class="exercise-header">
+                        <h3 id="exerciseTitle">Exercício 1: Primeiro Programa</h3>
+                        <div class="exercise-difficulty">
+                            <span class="difficulty-badge" id="difficultyBadge">Iniciante</span>
+                        </div>
+                    </div>
+
+                    <div class="exercise-content">
+                        <div class="exercise-description">
+                            <h4>📝 Objetivo:</h4>
+                            <p id="exerciseObjective">Crie seu primeiro programa Java que imprime "Olá, Mundo!"</p>
+                            
+                            <h4>💡 Dica:</h4>
+                            <p id="exerciseHint">Use System.out.println() para imprimir texto na tela</p>
+                        </div>
+
+                        <div class="code-editor-container">
+                            <div class="editor-header">
+                                <span>📝 Editor de Código</span>
+                                <div class="editor-actions">
+                                    <button class="btn btn-small" onclick="showHint()">💡 Dica</button>
+                                    <button class="btn btn-small" onclick="resetCode()">🔄 Reset</button>
+                                    <button class="btn btn-small" onclick="runCode()">▶️ Executar</button>
+                                </div>
+                            </div>
+                            <div class="code-editor">
+                                <pre><code class="language-java" id="codeEditor" contenteditable="true">public class MeuPrimeiroPrograma {
+    public static void main(String[] args) {
+        // Escreva seu código aqui
+        
+    }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="output-container">
+                            <div class="output-header">
+                                <span>📤 Saída do Programa</span>
+                            </div>
+                            <div class="output-content" id="outputContent">
+                                <p class="output-placeholder">Execute o código para ver a saída aqui...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="exercise-actions">
+                        <button class="btn btn-secondary" onclick="showSolution()">🔍 Ver Solução</button>
+                        <button class="btn btn-primary" onclick="checkAnswer()">✅ Verificar Resposta</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Screen -->
+            <div class="screen hidden" id="successScreen">
+                <div class="success-content">
+                    <div class="success-animation">
+                        <div class="celebration">🎉</div>
+                        <h2>Parabéns!</h2>
+                        <p>Você completou o exercício com sucesso!</p>
+                    </div>
+                    <div class="success-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Pontos Ganhos:</span>
+                            <span class="stat-value" id="pointsEarned">+50</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Tempo:</span>
+                            <span class="stat-value" id="timeTaken">2:30</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Sequência:</span>
+                            <span class="stat-value" id="streakCount">3</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="nextExercise()">Próximo Exercício →</button>
+                </div>
+            </div>
+
+            <!-- Game Complete Screen -->
+            <div class="screen hidden" id="completeScreen">
+                <div class="complete-content">
+                    <div class="complete-animation">
+                        <div class="trophy">🏆</div>
+                        <h2>Missão Completa!</h2>
+                        <p>Você dominou os fundamentos do Java!</p>
+                    </div>
+                    <div class="final-stats">
+                        <div class="final-stat">
+                            <span class="final-stat-label">Pontuação Total:</span>
+                            <span class="final-stat-value" id="finalScore">500</span>
+                        </div>
+                        <div class="final-stat">
+                            <span class="final-stat-label">Exercícios Completos:</span>
+                            <span class="final-stat-value" id="exercisesCompleted">10/10</span>
+                        </div>
+                        <div class="final-stat">
+                            <span class="final-stat-label">Tempo Total:</span>
+                            <span class="final-stat-value" id="totalTime">25:30</span>
+                        </div>
+                    </div>
+                    <div class="complete-actions">
+                        <button class="btn btn-secondary" onclick="restartGame()">🔄 Jogar Novamente</button>
+                        <button class="btn btn-primary" onclick="shareResults()">📤 Compartilhar</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="game-sidebar">
+            <div class="sidebar-section">
+                <h4>📚 Conceitos Aprendidos</h4>
+                <div class="concepts-list" id="conceptsList">
+                    <div class="concept-item locked">
+                        <span class="concept-icon">🔒</span>
+                        <span class="concept-name">Sintaxe Básica</span>
+                    </div>
+                    <div class="concept-item locked">
+                        <span class="concept-icon">🔒</span>
+                        <span class="concept-name">Variáveis</span>
+                    </div>
+                    <div class="concept-item locked">
+                        <span class="concept-icon">🔒</span>
+                        <span class="concept-name">Loops</span>
+                    </div>
+                    <div class="concept-item locked">
+                        <span class="concept-icon">🔒</span>
+                        <span class="concept-name">Condicionais</span>
+                    </div>
+                    <div class="concept-item locked">
+                        <span class="concept-icon">🔒</span>
+                        <span class="concept-name">Métodos</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>🏆 Conquistas</h4>
+                <div class="achievements-list" id="achievementsList">
+                    <div class="achievement-item locked">
+                        <span class="achievement-icon">🔒</span>
+                        <span class="achievement-name">Primeiro Código</span>
+                    </div>
+                    <div class="achievement-item locked">
+                        <span class="achievement-icon">🔒</span>
+                        <span class="achievement-name">Sem Erros</span>
+                    </div>
+                    <div class="achievement-item locked">
+                        <span class="achievement-icon">🔒</span>
+                        <span class="achievement-name">Velocidade</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>💬 Chat de Ajuda</h4>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-message bot">
+                            <span class="message-avatar">🤖</span>
+                            <span class="message-text">Olá! Sou seu assistente Java. Como posso ajudar?</span>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Digite sua pergunta...">
+                        <button onclick="sendMessage()">📤</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Hint Modal -->
+    <div class="modal hidden" id="hintModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💡 Dica</h3>
+                <button class="modal-close" onclick="closeHint()">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="hintContent">Esta é uma dica útil para o exercício atual!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solution Modal -->
+    <div class="modal hidden" id="solutionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔍 Solução</h3>
+                <button class="modal-close" onclick="closeSolution()">×</button>
+            </div>
+            <div class="modal-body">
+                <pre><code class="language-java" id="solutionCode">// Solução do exercício</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
